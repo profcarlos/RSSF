@@ -3,7 +3,7 @@
 //
 //This example creates a bridge between Serial and Classical Bluetooth (SPP)
 //and also demonstrate that SerialBT have the same functionalities of a normal Serial
-
+// Link: https://randomnerdtutorials.com/esp32-bluetooth-classic-arduino-ide/
 #include "BluetoothSerial.h"
 
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
