@@ -1,3 +1,10 @@
+/**********
+  IFG Campus Goiânia
+  Autor:    Carlos Silveira
+  Objetivo: Programa de teste do ESP32. O LED interno pisca e escreve mensagem padrão indefinidamente.
+  Origem:   
+*********/
+
 void setup() {
  Serial.begin(115200);
  // Habilita o LED onboard como saída

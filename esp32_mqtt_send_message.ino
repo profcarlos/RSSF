@@ -1,9 +1,16 @@
-// Origem: https://www.arduinoecia.com.br/enviando-mensagens-mqtt-modulo-esp32-wifi/
+/**********
+  IFG Campus Goiânia
+  Autor:    Carlos Silveira
+  Objetivo: Estabelece comunicação via WiFi utilizando o protocolo MQTT. 
+            Pisca o LED interno a cada mensagem enviada.
+  Origem:   https://www.arduinoecia.com.br/enviando-mensagens-mqtt-modulo-esp32-wifi/
+  Sugestão de alteração do mqttServer: https://cursos.alura.com.br/forum/topico-erro-ao-conectar-com-o-mqtt-broker-82795
+*********/
+
 #include <WiFi.h>
 #include <PubSubClient.h>
 const char* ssid     = "GVT-76F4";
 const char* password = "91DB072849";
-//Funciona: https://cursos.alura.com.br/forum/topico-erro-ao-conectar-com-o-mqtt-broker-82795
 const char* mqttServer = "broker.mqtt-dashboard.com";
 const int mqttPort = 1883;
 const char* mqttUser = "profcarlos";
