@@ -1,10 +1,9 @@
 /**********
   IFG Campus Goiânia
   Autor:    Carlos Silveira
-  Objetivo: Programa de teste do ESP32. O LED interno pisca e escreve mensagem padrão indefinidamente.
-  Origem:   
+  Objetivo: Programa de testes do ESP32. O LED interno pisca indefinidamente e escreve mensagem padrão.
+  Origem:   https://techtutorialsx.com/2017/04/24/esp32-connecting-to-a-wifi-network/
 *********/
-
 void setup() {
  Serial.begin(115200);
  // Habilita o LED onboard como saída

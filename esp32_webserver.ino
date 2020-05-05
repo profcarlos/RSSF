@@ -3,6 +3,8 @@
   Autor:    Carlos Silveira
   Objetivo: Estabelece um WebServer com o ESP32. Realiza o acionamento de dois LEDs via rede WiFi.
   Origem:   https://randomnerdtutorials.com/esp32-web-server-arduino-ide/
+  Imagem na página: https://circuits4you.com/2018/01/31/upload-image-png-jpeg-to-esp8266-web-page/
+  Fórum sobre imagem: https://forum.arduino.cc/index.php?topic=599971.0
 *********/
 
 // Inclui biblioteca WiFi
@@ -107,6 +109,7 @@ void loop(){
             
             // Apresenta o cabeçalho da página de Web
             client.println("<body><h1>ESP32 Web Server</h1>");
+            client.println("<img src=\"https://img.elo7.com.br/product/zoom/1050AA0/totem-display-minions-90-cm-festa-minions.jpg\" alt=\"Minion\" height=\"120\" width=\"60\">");
             
             // Apresenta o estado atual do LED1 e botão 
             client.println("<p>LED1 - State " + LED1State + "</p>");
