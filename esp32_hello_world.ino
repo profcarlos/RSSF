@@ -3,6 +3,7 @@
   Autor:    Carlos Silveira
   Objetivo: Programa de testes do ESP32. O LED interno pisca indefinidamente e escreve mensagem padrão.
   Origem:   https://techtutorialsx.com/2017/04/24/esp32-connecting-to-a-wifi-network/
+  URLs adicionais para Gerenciadores de Placas: https://dl.espressif.com/dl/package_esp32_index.json 
 *********/
 void setup() {
  Serial.begin(115200);
