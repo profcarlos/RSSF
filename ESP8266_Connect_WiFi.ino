@@ -71,7 +71,7 @@ void loop() {
   // Descarta os bytes já lidos do Cliente
   client.flush(); 
   // Variável value recebe LOW
-  int value = HIGH;
+  int value = LOW;
   // Se a mensagem tem o texto LED=ON acende o LED
   if (request.indexOf("/LED=ON") != -1)  {
     digitalWrite(LED_BUILTIN, LOW);
