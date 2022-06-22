@@ -31,8 +31,8 @@ DHT dht(DHTPIN, DHTTIPO); // DHT (pino,tipo)
 
 //WiFi
 
-const char* REDE = "Campos Oi Fibra 2G";                // SSID / nome da rede WiFi que deseja se conectar
-const char* SENHA = "fdpcssm123";               // Senha da rede WiFi que deseja se conectar
+const char* REDE = "ssid";                // SSID / nome da rede WiFi que deseja se conectar
+const char* SENHA = "password";               // Senha da rede WiFi que deseja se conectar
 WiFiClient wifiClient; 
 
 // Define as variáveis para temperatura e umidade
