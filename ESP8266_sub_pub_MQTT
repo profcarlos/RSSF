@@ -69,6 +69,7 @@ void loop() {
     tempoAnterior = tempoAtual; // Atualiza o valor de milisegundos anterior 
     umi = dht.readHumidity();   // Realiza uma nova leitura do sensor de umidade
     temp = dht.readTemperature(); // Realiza uma nova leitura do sensor de temperatura, em Celsius
+    Serial.print(umi); Serial.print("% "); Serial.print(temp);Serial.println("ºC");
     MQTT.publish(PUB_TEMP, String(temp).c_str());  //Publica o valor da temperatura
     MQTT.publish(PUB_UMI, String(umi).c_str());    //Publica o valor da umidade
   }  
