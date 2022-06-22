@@ -1,0 +1,142 @@
+/**********
+  IFG Campus Goiânia
+  Objetivo: Estabelece comunicação via MQTT Broker e envia tópicos  dos sensores
+            de temperatura e umidade do sensor DHT11 a cada cinco segundos, além
+            de atualizar o estado do LED que se encontra conectado ao ESP.            
+  Origem:  https://randomnerdtutorials.com/esp8266-nodemcu-mqtt-publish-dht11-dht22-arduino/
+     
+*********/
+#include <ESP8266WiFi.h>  // Inclui biblioteca WiFi
+#include <Adafruit_Sensor.h> // Inclui bibliotecas do DHT
+#include <DHT.h>
+#include <PubSubClient.h> // Inclue biblioteca de comunicação MQTT
+
+
+// Configurações DHT
+#define DHTTIPO DHT11     // Define o modelo DHT 11, DHT21, DHT22
+#define DHTPIN D1         // Define o pino de conexão do sensor no ESP32
+DHT dht(DHTPIN, DHTTIPO); // DHT (pino,tipo)
+#define LED D2         // Define o pino do LED
+
+// Confiogurações do broker MQTT, insere o domínio e porta
+#define BROKER  "broker.mqtt-dashboard.com"
+#define PORTA 1883
+
+// Define os nomes variáveis do sensor DHT para o MQQT broker
+#define ID_MQTT  "RSSF" 
+#define PUB_TEMP "carlos/dht/temperatura"
+#define PUB_UMI  "carlos/dht/umidade"
+// Define tópico para inscrição e controle do LED
+#define SUB_LED  "carlos/led"
+
+//WiFi
+
+const char* REDE = "Campos Oi Fibra 2G";                // SSID / nome da rede WiFi que deseja se conectar
+const char* SENHA = "fdpcssm123";               // Senha da rede WiFi que deseja se conectar
+WiFiClient wifiClient; 
+
+// Define as variáveis para temperatura e umidade
+float temp;
+float umi;
+
+// Variáveis para registrar o intervalo de repetição de leitura
+unsigned long tempoAtual;
+unsigned long tempoAnterior = 0;   
+const long intevalo = 5000;  
+
+PubSubClient MQTT(wifiClient);        // Instancia o Cliente MQTT passando o objeto espClient
+
+//Declaração das Funções
+void mantemConexoes();  //Garante que as conexoes com WiFi e MQTT Broker se mantenham ativas
+void conectaWiFi();     //Faz conexão com WiFi
+void conectaMQTT();     //Faz conexão com Broker MQTT
+void recebePacote(char* topic, byte* payload, unsigned int length); //Recebe pacotes publicados nos tópicos assinados
+
+void setup() {
+  Serial.begin(115200);  // Inicializa a comunicação serial
+  Serial.println();
+  dht.begin(); // Inicializa o sensor DHT
+  pinMode(LED_BUILTIN, OUTPUT);
+  
+  conectaWiFi();
+  MQTT.setServer(BROKER, PORTA);  //Faz a conexão com o broker
+  MQTT.setCallback(recebePacote); //Faz leitura do pacote quando ele é recebido
+}
+
+void loop() {
+  tempoAtual = millis();    // A cada intervalo de tempo realiza a leitura do DHT
+  if (tempoAtual - tempoAnterior >= intevalo) {
+    tempoAnterior = tempoAtual; // Atualiza o valor de milisegundos anterior 
+    umi = dht.readHumidity();   // Realiza uma nova leitura do sensor de umidade
+    temp = dht.readTemperature(); // Realiza uma nova leitura do sensor de temperatura, em Celsius
+    MQTT.publish(PUB_TEMP, String(temp).c_str());  //Publica o valor da temperatura
+    MQTT.publish(PUB_UMI, String(umi).c_str());    //Publica o valor da umidade
+  }  
+  mantemConexoes();  //Garante conexões
+  MQTT.loop();       //Função que deve ser chamada regularmente para permitir que o cliente processe as mensagens recebidas e mantenha sua conexão com o servidor.
+}
+
+void mantemConexoes() {
+    if (!MQTT.connected()) { //Se o MQTT estiver desconetado faz a reconexão
+       conectaMQTT(); 
+    }
+    
+    conectaWiFi(); //Se não há conexão com o WiFI, faz a reconexão
+}
+
+void conectaWiFi() {
+  if (WiFi.status() == WL_CONNECTED) {
+     return;
+  }
+        
+  Serial.print("Conectando-se na rede: ");
+  Serial.print(REDE);
+  Serial.println("  Aguarde!");
+
+  WiFi.begin(REDE, SENHA); // Conecta na rede WI-FI  
+  while (WiFi.status() != WL_CONNECTED) {
+      delay(100);
+      Serial.print(".");
+  }
+  
+  Serial.println();
+  Serial.print("Conectado com sucesso, na rede: ");
+  Serial.print(REDE);  
+  Serial.print("  IP obtido: ");
+  Serial.println(WiFi.localIP()); 
+}
+
+void conectaMQTT() { 
+    while (!MQTT.connected()) {
+        Serial.print("Conectando ao Broker MQTT: ");
+        Serial.println(BROKER);
+        if (MQTT.connect(ID_MQTT)) {
+            Serial.println("Conectado ao Broker com sucesso!");
+            MQTT.subscribe(SUB_LED);
+        } 
+        else {
+            Serial.println("Nao foi possivel se conectar ao broker.");
+            Serial.println("Nova tentatica de conexao em 10s");
+            delay(10000);
+        }
+    }
+}
+
+void recebePacote(char* topic, byte* payload, unsigned int length) 
+{
+    String tpc = topic; //salva o nome do tópico na variável tpc
+    String msg;
+    Serial.print ("Mensagem recebida no tópico: ");
+    Serial.println (tpc);
+    
+    //Obtem a mensagem do payload recebido
+    for(int i = 0; i < length; i++) 
+    {
+       char c = (char)payload[i];
+       msg += c;
+    }
+    //Função executada a partir da mesnagem recebida (acende o LED em baixo)
+    if (msg == "true") digitalWrite(LED_BUILTIN, LOW);
+    if (msg == "false") digitalWrite(LED_BUILTIN, HIGH);
+    Serial.println("Executado!");
+}
