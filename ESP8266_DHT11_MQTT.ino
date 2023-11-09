@@ -18,9 +18,9 @@
 
 // Define as constantes de conexão de rede WiFi  
 // Insere o nome da Rede WiFi
-const char* WIFI_SSID = "Campos Oi Fibra 2G";
+const char* WIFI_SSID = "GYN-IFG-LAB";
 // Insere a senha da Rede WiFi
-const char* WIFI_PASSWORD = "fdpcssm123";
+const char* WIFI_PASSWORD = "1b207bfbf0";
 
 // configura a porta do servidor para número 80
 WiFiServer server(80);
