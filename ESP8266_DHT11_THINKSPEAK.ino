@@ -146,7 +146,7 @@ void loop()
         temperatura = dht.readTemperature();
         umidade = dht.readHumidity();
         sprintf(fields,"field1=%.2f&field2=%.2f", temperatura, umidade);
-        envia_informacoes_thingspeak(fields_a_serem_enviados);
+        envia_informacoes_thingspeak(fields);
         Serial.println(fields);
     }
  
