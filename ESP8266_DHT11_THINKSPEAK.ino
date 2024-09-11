@@ -9,8 +9,8 @@
 #define DHTPIN D1
  
 /* defines - wi-fi */
-#define SSID_REDE "" /* coloque aqui o nome da rede que se deseja conectar */
-#define SENHA_REDE "" /* coloque aqui a senha da rede que se deseja conectar */
+#define SSID_REDE "IFG-IoT" /* coloque aqui o nome da rede que se deseja conectar */
+#define SENHA_REDE "iotWifiGs" /* coloque aqui a senha da rede que se deseja conectar */
 #define INTERVALO_ENVIO_THINGSPEAK 100 /* intervalo entre envios de dados ao ThingSpeak (em ms) */
  
 /* A biblioteca serve para os sensores DHT11, DHT22 e DHT21.
@@ -24,7 +24,7 @@
  
 /* constantes e variáveis globais */
 char endereco_api_thingspeak[] = "api.thingspeak.com";
-String chave_escrita_thingspeak = "";  /* Coloque aqui sua chave de escrita do seu canal */
+String chave_escrita_thingspeak = "xxxx";  /* Coloque aqui sua chave de escrita do seu canal */
 unsigned long last_connection_time;
 WiFiClient client;
 DHT dht(DHTPIN, DHTTYPE);
