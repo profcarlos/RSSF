@@ -9,9 +9,9 @@
 #include<ESP8266WiFi.h>
 
 // Insere o nome da Rede WiFi
-const char* ssid = "network";
+const char* ssid = "IFG-IoT";
 // Insere a senha da Rede WiFi
-const char* password = "password";  
+const char* password = "iotWifiGs";  
 // Define a porta de comunicação HTTP
 WiFiServer server(80);
 
