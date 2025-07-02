@@ -27,7 +27,7 @@ WiFiServer server(80);
 
 // Configurações DHT
 #define DHTTYPE DHT11     // Define o modelo DHT 11, DHT21, DHT22
-#define DHTPIN D1         // Define o pino de conexão do sensor no ESP32
+#define DHTPIN 5         // Define o pino D1 de conexão do sensor no ESP8266
 DHT dht(DHTPIN, DHTTYPE); // DHT (pino,tipo)
 
 // Para uma nuvem MQTT broker, insere o domínio e porta
